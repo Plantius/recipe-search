@@ -19,7 +19,4 @@ dev = [
 
 [tool.djlint]
 profile = "jinja"
-ignore = "H006,H030,H031"
-indent = 2
-max_line_length = 120
 include = "app/frontend/templates"
