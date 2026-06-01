@@ -1,0 +1,24 @@
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+
+# from app.api.router import api_router
+from app.frontend.router import router as frontend_router
+
+app = FastAPI(
+    title="Recipe Search",
+)
+
+app.mount(
+    "/static",
+    StaticFiles(directory="app/static"),
+    name="static",
+)
+
+# app.include_router(api_router, prefix="/api")
+
+app.include_router(frontend_router)
+
+
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
