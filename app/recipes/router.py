@@ -9,7 +9,7 @@ from app.recipes.service import RecipeService
 router = APIRouter()
 
 
-@router.get("/", response_model=list[RecipeRead])
+@router.get("/", name="recipes", response_model=list[RecipeRead])
 def list_recipes(session: Session = Depends(get_session)):
     return RecipeService.list(session)
 
