@@ -8,3 +8,4 @@ class Unit(StrEnum):
     LITER = "l"
     TEASPOON = "tsp"
     TABLESPOON = "tbsp"
+    PIECES = "pcs"

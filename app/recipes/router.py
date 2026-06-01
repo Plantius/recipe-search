@@ -14,7 +14,7 @@ def list_recipes(session: Session = Depends(get_session)):
     return RecipeService.list(session)
 
 
-@router.post("/", response_model=RecipeRead)
+@router.post("/create", response_model=RecipeRead)
 def create_recipe(
     payload: RecipeCreate,
     session: Session = Depends(get_session),
