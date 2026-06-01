@@ -228,3 +228,6 @@ blob-report/
 playwright/.cache/
 target/
 .debug/
+
+# SQL Database
+*.db
