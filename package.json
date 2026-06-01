@@ -1,17 +1,17 @@
 {
-    "name": "recipe-search",
-    "version": "0.1.0",
-    "scripts": {
-        "dev": "tailwindcss -i ./src/css/app.css -o ./app/static/css/main.css --watch",
-        "build": "tailwindcss -i ./src/css/app.css -o ./app/static/css/main.css --minify",
-        "lint": "npx @biomejs/biome check ./src ./app/frontend/templates && uv run djlint app/frontend/templates --check",
-        "format": "npx @biomejs/biome check --write ./src ./app/frontend/templates && uv run djlint app/frontend/templates --reformat"
-    },
-    "devDependencies": {
-        "@biomejs/biome": "^2.4.16",
-        "tailwindcss": "^4.3.0"
-    },
-    "dependencies": {
-        "@tailwindcss/cli": "^4.3.0"
-    }
+  "name": "recipe-search",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "tailwindcss -i ./src/css/app.css -o ./app/static/css/main.css --watch",
+    "build": "tailwindcss -i ./src/css/app.css -o ./app/static/css/main.css --minify",
+    "lint": "npx @biomejs/biome check ./src ./app/frontend/templates && uv run djlint app/frontend/templates --check",
+    "format": "npx @biomejs/biome check --write ./src ./app/frontend/templates && uv run djlint app/frontend/templates --reformat"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.16",
+    "tailwindcss": "^4.3.0"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.3.0"
+  }
 }
