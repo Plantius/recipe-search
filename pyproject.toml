@@ -19,5 +19,4 @@ dev = [
 ]
 
 [tool.djlint]
-profile = "jinja"
-include = "app/frontend/templates"
+profile = "flask"

@@ -23,7 +23,7 @@ repos:
     - repo: https://github.com/djlint/djLint
       rev: v1.36.4
       hooks:
-          - id: djlint-reformat-jinja
+          - id: djlint-reformat
             files: ^app/frontend/templates/
-          - id: djlint-jinja
+          - id: djlint
             files: ^app/frontend/templates/
