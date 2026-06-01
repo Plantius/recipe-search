@@ -14,3 +14,17 @@ repos:
             args: [--fix, "--extend-select=I,E", "--ignore=F401"]
           # Run the formatter
           - id: ruff-format
+
+    - repo: https://github.com/biomejs/pre-commit
+      rev: v2.4.16
+      hooks:
+          - id: biome-check
+            additional_dependencies: ["@biomejs/biome@2.4.16"]
+            args: [--write]
+    - repo: https://github.com/djlint/djLint
+      rev: v1.36.4
+      hooks:
+          - id: djlint-reformat-jinja
+            files: ^app/frontend/templates/
+          - id: djlint-jinja
+            files: ^app/frontend/templates/
