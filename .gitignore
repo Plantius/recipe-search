@@ -231,3 +231,6 @@ target/
 
 # SQL Database
 *.db
+
+# IDE
+.zed

@@ -1,7 +1,5 @@
 from pydantic import BaseModel, ConfigDict, Field
 
-# --- Shared / nested ---
-
 
 class IngredientRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -13,9 +11,6 @@ class TagRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     # id: int
     name: str
-
-
-# --- Input schemas ---
 
 
 class RecipeIngredientCreate(BaseModel):
@@ -33,14 +28,6 @@ class RecipeCreate(BaseModel):
     tag_ids: list[int] = Field(default_factory=list)
 
 
-class RecipeTagRead(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-    tag: TagRead
-
-
-# --- Output schemas ---
-
-
 class RecipeIngredientRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     ingredient: IngredientRead
@@ -54,4 +41,4 @@ class RecipeRead(BaseModel):
     name: str
     description: str | None = None
     ingredients: list[RecipeIngredientRead] = Field(default_factory=list)
-    tags: list[RecipeTagRead] = Field(default_factory=list)
+    tags: list[TagRead] = Field(default_factory=list)

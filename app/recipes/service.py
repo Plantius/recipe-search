@@ -9,7 +9,7 @@ from app.recipes.schemas import RecipeCreate
 def list_recipes(session: Session) -> list[Recipe]:
     statement = select(Recipe).options(
         selectinload(Recipe.ingredients).selectinload(RecipeIngredientLink.ingredient),
-        selectinload(Recipe.tags).selectinload(RecipeTagLink.tag),
+        selectinload(Recipe.tags),
     )
     return session.exec(statement).all()
 
