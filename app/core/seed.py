@@ -1,14 +1,11 @@
 from sqlmodel import Session
 
 from app.core.database import engine
-from app.core.models import (
-    Ingredient,
-    Recipe,
-    RecipeIngredientLink,
-    RecipeTagLink,
-    Tag,
-)
-from app.core.utils import Unit
+from app.core.models.ingredient import Ingredient
+from app.core.models.links import RecipeIngredientLink, RecipeTagLink
+from app.core.models.recipe import Recipe
+from app.core.models.tag import Tag
+from app.core.models.types import Unit
 
 
 def seed_db():

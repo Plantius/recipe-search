@@ -1,20 +1,57 @@
-from typing import Optional
+from pydantic import BaseModel, ConfigDict, Field
 
-from sqlmodel import SQLModel
-
-from app.core.models import RecipeIngredientLink, RecipeTagLink
+# --- Shared / nested ---
 
 
-class RecipeCreate(SQLModel):
+class IngredientRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    # id: int
     name: str
-    description: Optional[str] = None
-    tags: Optional[list[RecipeTagLink]] = None
-    ingredients: list[RecipeIngredientLink]
 
 
-class RecipeRead(SQLModel):
-    id: int
+class TagRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    # id: int
     name: str
-    description: Optional[str] = None
-    tags: Optional[list[RecipeTagLink]] = None
-    ingredients: list[RecipeIngredientLink]
+
+
+# --- Input schemas ---
+
+
+class RecipeIngredientCreate(BaseModel):
+    """What the client sends when adding an ingredient to a recipe."""
+
+    ingredient_id: int
+    quantity: float
+    unit: str
+
+
+class RecipeCreate(BaseModel):
+    name: str
+    description: str | None = None
+    ingredients: list[RecipeIngredientCreate] = Field(default_factory=list)
+    tag_ids: list[int] = Field(default_factory=list)
+
+
+class RecipeTagRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    tag: TagRead
+
+
+# --- Output schemas ---
+
+
+class RecipeIngredientRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    ingredient: IngredientRead
+    quantity: float
+    unit: str
+
+
+class RecipeRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    # id: int
+    name: str
+    description: str | None = None
+    ingredients: list[RecipeIngredientRead] = Field(default_factory=list)
+    tags: list[RecipeTagRead] = Field(default_factory=list)

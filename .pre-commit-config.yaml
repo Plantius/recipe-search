@@ -19,6 +19,7 @@ repos:
       rev: v2.4.16
       hooks:
           - id: biome-check
+            files: ./src
             additional_dependencies: ["@biomejs/biome@2.4.16"]
     - repo: https://github.com/djlint/djLint
       rev: v1.36.4

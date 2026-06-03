@@ -1,23 +1,22 @@
+from typing import Annotated
+
 from fastapi import APIRouter, Depends
 from sqlmodel import Session
 
+import app.recipes.service as service
 from app.core.database import get_session
-from app.core.models import Recipe
 from app.recipes.schemas import RecipeCreate, RecipeRead
-from app.recipes.service import RecipeService
+
+SessionDep = Annotated[Session, Depends(get_session)]
 
 router = APIRouter()
 
 
 @router.get("/", name="recipes", response_model=list[RecipeRead])
-def list_recipes(session: Session = Depends(get_session)):
-    return RecipeService.list(session)
+def list_recipes(session: SessionDep):
+    return service.list_recipes(session)
 
 
-@router.post("/create", response_model=RecipeRead)
-def create_recipe(
-    payload: RecipeCreate,
-    session: Session = Depends(get_session),
-):
-    recipe = Recipe.model_validate(payload)
-    return RecipeService.create(session, recipe)
+@router.post("/", response_model=RecipeRead, status_code=201)
+def create_recipe(payload: RecipeCreate, session: SessionDep):
+    return service.create_recipe(session, payload)
