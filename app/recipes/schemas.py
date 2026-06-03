@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel, ConfigDict, Field
 
 
@@ -42,3 +44,6 @@ class RecipeRead(BaseModel):
     description: str | None = None
     ingredients: list[RecipeIngredientRead] = Field(default_factory=list)
     tags: list[TagRead] = Field(default_factory=list)
+
+    created_at: datetime
+    updated_at: datetime

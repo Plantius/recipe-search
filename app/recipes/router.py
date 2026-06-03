@@ -17,6 +17,11 @@ def list_recipes(session: SessionDep):
     return service.list_recipes(session)
 
 
+@router.get("/{recipe_id}", name="recipe_detail", response_model=list[RecipeRead])
+def recipe_detail(recipe_id: int, session: SessionDep):
+    return service.list_recipes(session)
+
+
 @router.post("/", response_model=RecipeRead, status_code=201)
 def create_recipe(payload: RecipeCreate, session: SessionDep):
     return service.create_recipe(session, payload)
