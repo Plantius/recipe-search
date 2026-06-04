@@ -2,16 +2,13 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from app.api.tags.schemas import TagRead
+from app.core.models.types import Unit
+
 
 class IngredientRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
-    # id: int
-    name: str
-
-
-class TagRead(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-    # id: int
+    id: int
     name: str
 
 
@@ -20,7 +17,7 @@ class RecipeIngredientCreate(BaseModel):
 
     ingredient_id: int
     quantity: float
-    unit: str
+    unit: Unit
 
 
 class RecipeCreate(BaseModel):
@@ -39,7 +36,7 @@ class RecipeIngredientRead(BaseModel):
 
 class RecipeRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
-    # id: int
+    id: int
     name: str
     description: str | None = None
     instructions: list[str] = Field(default_factory=list)

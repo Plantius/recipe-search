@@ -8,7 +8,9 @@ from app.api.recipes.schemas import RecipeCreate
 from app.core.models import Ingredient, Recipe, RecipeIngredientLink, RecipeTagLink, Tag
 
 
-def list_recipes(session: Session) -> Sequence[Recipe]:
+def list_recipes(
+    session: Session, offset: int = 0, limit: int = 20
+) -> Sequence[Recipe]:
     statement = select(Recipe).options(
         selectinload(Recipe.ingredients).selectinload(RecipeIngredientLink.ingredient),
         selectinload(Recipe.tags),
@@ -33,7 +35,7 @@ def get_recipe(session: Session, recipe_id: int) -> Recipe | None:
 def get_recipes(session: Session, recipe_ids: list[int]) -> Sequence[Recipe]:
     statement = (
         select(Recipe)
-        .where(Recipe.id in recipe_ids)
+        .where(Recipe.id.in_(recipe_ids))
         .options(
             selectinload(Recipe.ingredients).selectinload(
                 RecipeIngredientLink.ingredient

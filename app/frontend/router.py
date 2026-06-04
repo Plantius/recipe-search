@@ -1,5 +1,4 @@
 import logging
-from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import HTMLResponse
@@ -9,10 +8,8 @@ from sqlmodel import Session
 
 from app.api.recipes import service as recipe_service
 from app.api.recipes.schemas import RecipeRead
-from app.core import service as core_service
-from app.core.database import get_session
-
-SessionDep = Annotated[Session, Depends(get_session)]
+from app.api.tags import service as tags_service
+from app.core.database import SessionDep, get_session
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +21,7 @@ templates = Jinja2Templates(directory="app/frontend/templates")
 @router.get("/", name="index", response_class=HTMLResponse)
 async def index(request: Request, session: SessionDep):
     recipes = recipe_service.list_recipes(session)
-    tags = core_service.list_tags(session)
+    tags = tags_service.list_tags(session)
     return templates.TemplateResponse(
         request=request,
         name="index.html",
@@ -45,6 +42,7 @@ def recipe_detail(
         recipe_read = RecipeRead.model_validate(recipe)
     except ValidationError as e:
         logger.error("Failed to validate Recipe details:", e)
+        return HTTPException(status_code=500, detail=str(e))
 
     return templates.TemplateResponse(
         request=request,

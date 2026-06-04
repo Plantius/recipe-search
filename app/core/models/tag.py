@@ -19,7 +19,8 @@ class Tag(SQLModel, table=True):
     )
 
     created_at: datetime = Field(default_factory=datetime.now)
-    updated_at: Optional[datetime] = Field(
-        default=None,
-        sa_column=Column(DateTime, default=func.now(), onupdate=func.now()),
+    updated_at: datetime = Field(
+        sa_column=Column(
+            DateTime, default=func.now(), onupdate=func.now(), nullable=False
+        )
     )
