@@ -27,7 +27,15 @@ def seed_db():
         session.commit()
 
         # Recipes
-        pancake = Recipe(name="Pancakes", description="Fluffy pancakes")
+        pancake = Recipe(
+            name="Pancakes",
+            description="Fluffy pancakes",
+            instructions=[
+                "Mix all dry ingredients.",
+                "Mix all wet ingredients with the dry.",
+                "Bake!",
+            ],
+        )
 
         session.add(pancake)
         session.commit()

@@ -12,14 +12,14 @@ SessionDep = Annotated[Session, Depends(get_session)]
 router = APIRouter()
 
 
-@router.get("/", name="recipes", response_model=list[RecipeRead])
+@router.get("/", response_model=list[RecipeRead])
 def list_recipes(session: SessionDep):
     return service.list_recipes(session)
 
 
-@router.get("/{recipe_id}", name="recipe_detail", response_model=list[RecipeRead])
+@router.get("/{recipe_id}", name="api_recipe_detail", response_model=RecipeRead)
 def recipe_detail(recipe_id: int, session: SessionDep):
-    return service.list_recipes(session)
+    return service.get_recipe(session, recipe_id)
 
 
 @router.post("/", response_model=RecipeRead, status_code=201)

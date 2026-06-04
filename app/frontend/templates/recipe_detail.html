@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}
+    {{ recipe.name }}
+{% endblock title
+%}
+{% block content %}
+    <section class="mx-auto py-2">
+        <a href="{{ url_for("index") }}"
+           class="text-sm text-amber-700 hover:underline">← Back to recipes</a>
+        <h1 class="font-serif text-5xl font-black mt-4 mb-3">{{ recipe.name }}</h1>
+        {% if recipe.description %}<p class="text-lg text-stone-600 mb-6">{{ recipe.description }}</p>{% endif %}
+        {% if recipe.tags %}
+            <div class="flex flex-wrap gap-2 mb-8">
+                {% for tag in recipe.tags %}
+                    <span class="bg-amber-50 text-amber-700 rounded-full px-3 py-1 text-sm">{{ tag.name }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="flex flex-col lg:flex-row gap-2">
+            <div class="flex-1 bg-white border border-stone-200 rounded-xl p-5">
+                <h2 class="font-serif text-2xl font-bold mb-4">Instructions</h2>
+                <ol class="space-y-3 list-decimal list-inside">
+                    {% for step in recipe.instructions %}<li>{{ step }}</li>{% endfor %}
+                </ol>
+            </div>
+            <div class="flex-1 bg-white border border-stone-200 rounded-xl p-5">
+                <h2 class="font-serif text-2xl font-bold mb-4">Ingredients</h2>
+                <ul class="space-y-2">
+                    {% for item in recipe.ingredients %}
+                        <li>
+                            {{ item.ingredient.name }}
+                            {{ item.quantity }}
+                            {{ item.unit }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="mt-8 text-sm text-stone-400">Created: {{ recipe.created_at.strftime("%Y-%m-%d") }}</div>
+    </section>
+{% endblock content %}

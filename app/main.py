@@ -31,7 +31,6 @@ app.mount(
 )
 
 app.include_router(api_router, prefix="/api")
-app.include_router(recipes_router, prefix="/recipes")
 app.include_router(frontend_router)
 
 

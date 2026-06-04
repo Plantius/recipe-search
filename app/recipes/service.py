@@ -1,3 +1,5 @@
+from typing import Sequence
+
 from fastapi import HTTPException
 from sqlalchemy.orm import selectinload
 from sqlmodel import Session, select
@@ -6,10 +8,38 @@ from app.core.models import Ingredient, Recipe, RecipeIngredientLink, RecipeTagL
 from app.recipes.schemas import RecipeCreate
 
 
-def list_recipes(session: Session) -> list[Recipe]:
+def list_recipes(session: Session) -> Sequence[Recipe]:
     statement = select(Recipe).options(
         selectinload(Recipe.ingredients).selectinload(RecipeIngredientLink.ingredient),
         selectinload(Recipe.tags),
+    )
+    return session.exec(statement).all()
+
+
+def get_recipe(session: Session, recipe_id: int) -> Recipe | None:
+    statement = (
+        select(Recipe)
+        .where(Recipe.id == recipe_id)
+        .options(
+            selectinload(Recipe.ingredients).selectinload(
+                RecipeIngredientLink.ingredient
+            ),
+            selectinload(Recipe.tags),
+        )
+    )
+    return session.exec(statement).one_or_none()
+
+
+def get_recipes(session: Session, recipe_ids: list[int]) -> Sequence[Recipe]:
+    statement = (
+        select(Recipe)
+        .where(Recipe.id in recipe_ids)
+        .options(
+            selectinload(Recipe.ingredients).selectinload(
+                RecipeIngredientLink.ingredient
+            ),
+            selectinload(Recipe.tags),
+        )
     )
     return session.exec(statement).all()
 

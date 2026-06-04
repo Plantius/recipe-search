@@ -42,6 +42,7 @@ class RecipeRead(BaseModel):
     # id: int
     name: str
     description: str | None = None
+    instructions: list[str] = Field(default_factory=list)
     ingredients: list[RecipeIngredientRead] = Field(default_factory=list)
     tags: list[TagRead] = Field(default_factory=list)
 
