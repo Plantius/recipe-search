@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en"  class="bg-stone-50 text-stone-900">
+<html lang="en" class="bg-stone-50 text-stone-900">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description"
-              content="Recipe search and pantry management web app">
-        <meta name="keywords" content="recipes, cooking, pantry, meal planning">
+              content="Recipe search and pantry management web app" />
+        <meta name="keywords" content="recipes, cooking, pantry, meal planning" />
         <title>
             {% block title %}
                 Recipe Search
@@ -23,7 +23,9 @@
             </a>
             <nav class="flex gap-6 text-sm text-stone-500 uppercase tracking-widest">
                 <a href="{{ url_for("recipes_page") }}"
-                   class="hover:text-stone-900 transition {% block nav_home %}{% endblock nav_home %}">Recipes</a>
+                   class="hover:text-stone-900 transition {% block nav_recipes %}{% endblock nav_recipes %}">Recipes</a>
+                <a href="{{ url_for("search_page") }}"
+                   class="hover:text-stone-900 transition {% block nav_search %}{% endblock nav_search %}">Search</a>
             </nav>
         </header>
         <main class="flex-1 w-full mx-auto px-5">
