@@ -3,6 +3,10 @@
     {{ recipe.name }}
 {% endblock title
 %}
+{% block
+    nav_home %}
+    text-stone-900 border-b border-amber-700
+{% endblock nav_home %}
 {% block content %}
     <section class="mx-auto py-2">
         <a href="{{ url_for("index") }}"

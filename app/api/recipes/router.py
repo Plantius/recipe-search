@@ -3,9 +3,9 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 from sqlmodel import Session
 
-import app.recipes.service as service
+import app.api.recipes.service as service
+from app.api.recipes.schemas import RecipeCreate, RecipeRead
 from app.core.database import get_session
-from app.recipes.schemas import RecipeCreate, RecipeRead
 
 SessionDep = Annotated[Session, Depends(get_session)]
 

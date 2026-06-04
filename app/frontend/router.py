@@ -7,10 +7,10 @@ from fastapi.templating import Jinja2Templates
 from pydantic import ValidationError
 from sqlmodel import Session
 
+from app.api.recipes import service as recipe_service
+from app.api.recipes.schemas import RecipeRead
 from app.core import service as core_service
 from app.core.database import get_session
-from app.recipes import service as recipe_service
-from app.recipes.schemas import RecipeRead
 
 SessionDep = Annotated[Session, Depends(get_session)]
 

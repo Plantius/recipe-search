@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-from app.recipes.router import router as recipes_router
-from app.search.router import router as search_router
+from app.api.recipes.router import router as recipes_router
+from app.api.search.router import router as search_router
 
 api_router = APIRouter()
 

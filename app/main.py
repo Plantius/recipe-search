@@ -7,7 +7,6 @@ from app.api.router import api_router
 from app.core.config import get_settings
 from app.core.database import init_db
 from app.frontend.router import router as frontend_router
-from app.recipes.router import router as recipes_router
 
 settings = get_settings()
 

@@ -4,8 +4,8 @@ from fastapi import HTTPException
 from sqlalchemy.orm import selectinload
 from sqlmodel import Session, select
 
+from app.api.recipes.schemas import RecipeCreate
 from app.core.models import Ingredient, Recipe, RecipeIngredientLink, RecipeTagLink, Tag
-from app.recipes.schemas import RecipeCreate
 
 
 def list_recipes(session: Session) -> Sequence[Recipe]:
