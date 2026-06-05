@@ -7,8 +7,9 @@
 {% endblock nav_recipes %}
 {% block content %}
     <section class="mx-auto py-2">
-        <a href="{{ url_for("search_page") }}"
-           class="text-sm text-amber-700 hover:underline">← Back to search</a>
+        <button type="button"
+                onclick="history.back()"
+                class="text-sm text-amber-700 hover:underline">Back to search</button>
         <h1 class="font-serif text-5xl font-black mt-4 mb-3">{{ recipe.name }}</h1>
         {% if recipe.description %}<p class="text-lg text-stone-600 mb-6">{{ recipe.description }}</p>{% endif %}
         {% if recipe.tags %}
