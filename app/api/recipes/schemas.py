@@ -13,8 +13,6 @@ class IngredientRead(BaseModel):
 
 
 class RecipeIngredientCreate(BaseModel):
-    """What the client sends when adding an ingredient to a recipe."""
-
     ingredient_id: int
     quantity: float
     unit: Unit

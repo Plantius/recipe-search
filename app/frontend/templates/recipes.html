@@ -8,12 +8,13 @@
 {% block
     content %}
     <section class="py-5 ">
-        <form action="{{ url_for("search") }}"
+        <h1 class="font-serif text-5xl font-black tracking-tight mb-2">Search through recipes</h1>
+        <form action="{{ url_for("api-search") }}"
               method="get"
               class="flex flex-col gap-4">
             <div class="flex items-center bg-white border border-stone-200 rounded-full overflow-hidden focus-within:border-amber-700  transition">
                 <input type="text"
-                       name="q"
+                       name="query"
                        value="{{ query | default("") }}"
                        placeholder="e.g. chicken, lemon, garlic…"
                        autocomplete="off"
@@ -39,7 +40,7 @@
                         <label class="cursor-pointer">
                             <input
                                 type="checkbox"
-                                name="tag"
+                                name="tags"
                                 value="{{ tag.name }}"
                                 {%
                                 if

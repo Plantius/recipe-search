@@ -1,10 +1,12 @@
 from typing import Sequence
 
-from sqlmodel import Session, select
-
 from app.core.models import Tag
+from app.core.repository import TagRepository
 
 
-def list_tags(session: Session) -> Sequence[Tag]:
-    statement = select(Tag)
-    return session.exec(statement).all()
+class TagService:
+    def __init__(self, tag_repo: TagRepository) -> None:
+        self.tag_repo = tag_repo
+
+    def list_tags(self) -> Sequence[Tag]:
+        return self.tag_repo.list()

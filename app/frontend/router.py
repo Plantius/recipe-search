@@ -1,27 +1,23 @@
 import logging
 
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import ValidationError
-from sqlmodel import Session
 
-from app.api.recipes import service as recipe_service
+from app.api.recipes.dependencies import RecipeServiceDep
 from app.api.recipes.schemas import RecipeRead
-from app.api.tags import service as tags_service
-from app.core.database import SessionDep, get_session
+from app.api.tags.dependencies import TagServiceDep
 
 logger = logging.getLogger(__name__)
-
 router = APIRouter()
-
 templates = Jinja2Templates(directory="app/frontend/templates")
 
 
 @router.get("/", name="index", response_class=HTMLResponse)
-async def index(request: Request, session: SessionDep):
-    recipes = recipe_service.list_recipes(session)
-    tags = tags_service.list_tags(session)
+async def index(request: Request, recipe_svc: RecipeServiceDep, tag_svc: TagServiceDep):
+    recipes = recipe_svc.list_recipes()
+    tags = tag_svc.list_tags()
     return templates.TemplateResponse(
         request=request,
         name="index.html",
@@ -29,32 +25,9 @@ async def index(request: Request, session: SessionDep):
     )
 
 
-@router.get("/recipes/{recipe_id}", name="recipe_detail", response_class=HTMLResponse)
-def recipe_detail(
-    request: Request,
-    recipe_id: int,
-    session: Session = Depends(get_session),
-):
-    recipe = recipe_service.get_recipe(session, recipe_id)
-    if recipe is None:
-        raise HTTPException(status_code=404, detail="Recipe not found")
-    try:
-        recipe_read = RecipeRead.model_validate(recipe)
-    except ValidationError as e:
-        logger.error("Failed to validate Recipe details:", e)
-        return HTTPException(status_code=500, detail=str(e))
-
-    return templates.TemplateResponse(
-        request=request,
-        name="recipe_detail.html",
-        context={"recipe": recipe_read},
-    )
-
-
 @router.get("/recipes", name="recipes_page", response_class=HTMLResponse)
-async def recipes_page(request: Request, session: SessionDep):
-    recipes = recipe_service.list_recipes(session)
-    # TODO: Fetch recipe details
+async def recipes_page(request: Request, recipe_svc: RecipeServiceDep):
+    recipes = recipe_svc.list_recipes()
     return templates.TemplateResponse(
         request=request,
         name="recipes.html",
@@ -62,10 +35,16 @@ async def recipes_page(request: Request, session: SessionDep):
     )
 
 
-@router.get("/search", name="search_page", response_class=HTMLResponse)
-async def search_page(request: Request):
+@router.get("/recipes/{recipe_id}", name="recipe_detail", response_class=HTMLResponse)
+async def recipe_detail(request: Request, recipe_id: int, recipe_svc: RecipeServiceDep):
+    recipe = recipe_svc.get_recipe(recipe_id)
+    try:
+        recipe_read = RecipeRead.model_validate(recipe)
+    except ValidationError as e:
+        logger.error("Failed to validate recipe %d: %s", recipe_id, e)
+        raise HTTPException(status_code=500, detail=str(e))
     return templates.TemplateResponse(
         request=request,
-        name="search.html",
-        context={},
+        name="recipe_detail.html",
+        context={"recipe": recipe_read},
     )
