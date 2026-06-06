@@ -1,9 +1,10 @@
 from typing import Optional, Sequence
 
+from sqlalchemy import or_
 from sqlalchemy.orm import selectinload
 from sqlmodel import Session, select
 
-from app.core.models import Recipe, RecipeIngredientLink, Tag
+from app.core.models import Ingredient, Recipe, RecipeIngredientLink, Tag
 from app.core.repository.base import BaseRepository
 
 
@@ -44,7 +45,18 @@ class RecipeRepository(BaseRepository[Recipe]):
     ) -> Sequence[Recipe]:
         stmt = self._eager_query()
         if query:
-            stmt = stmt.where(Recipe.name.ilike(f"%{query}%"))
+            search_term = f"%{query}%"
+            stmt = stmt.where(
+                or_(
+                    Recipe.name.ilike(search_term),
+                    Recipe.description.ilike(search_term),
+                    Recipe.ingredients.any(
+                        RecipeIngredientLink.ingredient.has(
+                            Ingredient.name.ilike(search_term)
+                        )
+                    ),
+                )
+            )
 
         if tags:
             for tag in tags:

@@ -1,0 +1,51 @@
+<form hx-get="{{ url_for("api_search") }}"
+      hx-target="#search-results"
+      hx-trigger="submit, change from:input[type='checkbox'], keyup changed delay:300ms from:input[name='query']"
+      class="flex flex-col gap-2">
+    <div class="flex items-center bg-white border border-stone-200 rounded-full overflow-hidden focus-within:border-amber-700 transition">
+        <input type="text"
+               name="query"
+               value="{{ query | default("") }}"
+               placeholder="e.g. chicken, lemon, garlic…"
+               autocomplete="off"
+               hx-trigger="keyup changed delay:300ms"
+               class="flex-1 px-5 py-3 bg-transparent outline-none text-sm placeholder:text-stone-400" />
+        <button type="submit"
+                class="bg-amber-700 hover:bg-amber-800 text-white px-5 py-4 transition flex items-center justify-center">
+            <svg width="16"
+                 height="16"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2.5">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+            </svg>
+        </button>
+    </div>
+    {% if tags %}
+        <div class="flex flex-wrap gap-2">
+            {% for tag in tags %}
+                <label class="cursor-pointer">
+                    <input
+                        type="checkbox"
+                        name="tags"
+                        value="{{ tag.name }}"
+                        {%
+                        if
+                        tag.name
+                        in
+                        selected_tags
+                        %}checked{%
+                        endif
+                        %}
+                        class="peer hidden"
+                        />
+                        <span class="peer-checked:bg-amber-700 peer-checked:text-white peer-checked:border-amber-700 text-xs border border-stone-300 rounded-full px-3 py-1 text-stone-500 hover:border-amber-700 hover:text-amber-700 transition select-none">
+                            {{ tag.name }}
+                        </span>
+                    </label>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </form>
